@@ -5,8 +5,8 @@
 void Roster::parse(string studentData)
 {
 	DegreeType dp = NETWORK; /*making this the default...it only occures once*/
-	if (studentData.at(8) == 'Y') dp = SECURITY; // last character in degreeType helps with ID of students
-	else if (studentData.at(8) == 'E') dp = SOFTWARE;
+	if (studentData.substr(studentData.length() - 1, 1) == "Y") dp = SECURITY; // last character in degreeType helps with ID of students
+	else if (studentData.substr(studentData.length() - 1, 1) == "E") dp = SOFTWARE;
 
 	int rightSide = studentData.find(","); /*looks for comma in the long string*/
 	string studentID = studentData.substr(0, rightSide); /*pulls the data found in front of the comma*/
@@ -56,7 +56,7 @@ void Roster::printAll()
 
 	Student::printHeader();
 	for (int i = 0; i <= Roster::lastIndex; i++)
-	{			
+	{
 		cout << classRosterArray[i]->getID(); cout << '\t';
 		cout << classRosterArray[i]->getFirstName(); cout << '\t';
 		cout << classRosterArray[i]->getLastName(); cout << '\t';
@@ -67,7 +67,7 @@ void Roster::printAll()
 		cout << classRosterArray[i]->getDays()[2]; cout << '\t';
 		cout << DegreeTypeString[classRosterArray[i]->getDegree()] << std::endl;
 
-		classRosterArray[i]->print();
+		//classRosterArray[i]->print();
 	}
 }
 
@@ -87,7 +87,7 @@ void Roster::printInvalidEmails()
 	for (int i = 0; i <= Roster::lastIndex; i++)
 	{
 		string faultEmail = (classRosterArray[i]->getEmail());
-		if (faultEmail.find('@') != string::npos || (faultEmail.find('.') != string::npos && faultEmail.find(' ') != string::npos))
+		if (faultEmail.find('@') == string::npos || faultEmail.find('.') == string::npos || faultEmail.find(' ') != string::npos)
 		{
 			any = true;
 			cout << faultEmail << ": " << classRosterArray[i]->getEmail() << std::endl;
@@ -101,7 +101,7 @@ void Roster::printAverageCourseDays()
 	for (int i = 0; i <= Roster::lastIndex; i++)
 	{
 		cout << classRosterArray[i]->getID() << ": ";
-		cout << (classRosterArray[i]->getDays()[0] + classRosterArray[i]->getDays()[1] + classRosterArray[i]->getDays()[2])/3.0 << std::endl;
+		cout << (classRosterArray[i]->getDays()[0] + classRosterArray[i]->getDays()[1] + classRosterArray[i]->getDays()[2]) / 3.0 << std::endl;
 	}
 	cout << std::endl;
 }
